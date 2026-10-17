@@ -8,6 +8,8 @@ dMax = 100;      % um
 roi = 8000;     % ROI side length [um]
 nPx = 2048;     % pixels across ROI - assumesmROI fills the 2048-px sensor
 
+aberration = 0;         % 1 for png output of aberrated image, 0 for clean output only
+
 % derived/generated particle parameters
 um_px = roi/nPx;                       % 3.91 um/px
 d_um  = dMin + (dMax-dMin)*rand(N,1);   % diameters [um]
@@ -37,3 +39,16 @@ writetable(T, 'particles.csv');
 imshow(img);
 axis on;
 title('simulated darkfield image (binary)')
+
+% adding gaussian blur to simulate minor symmetric aberration (spherical)
+%     update later based on aberrations predicted by code v
+if aberration
+    sigma = 2;     % stdev for gaussian blur
+    imgAb = imgaussfilt(img, sigma);
+
+    imwrite(uint8(255*imgAb), 'particles_ab.png'); % writes clean png for input into processing algorithm
+    
+    imshow(imgAb);
+    axis on;
+    title('simulated darkfield image (gaussian blur)')
+end
