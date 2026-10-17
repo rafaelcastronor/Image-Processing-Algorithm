@@ -1,4 +1,4 @@
-% Dark-field particle simulation: ideal image + ground-truth CSV
+% Dark-field particle simulation: ideal image with CSV
 clear; clc;
 
 % parameters
